@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  resilio_sync:
+    container_name: resilio_sync
+    image: resilio/sync:release-2.6.2
+    restart: always
+    ports:
+      - 127.0.0.1:9999:8888
+      - 55555:55555
+    volumes:
+      - ${HOME}/Documents/btsync:/mnt/sync
+      - ${HOME}/Documents:/mnt/mounted_folders/documents
