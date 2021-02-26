@@ -5,7 +5,7 @@ Plex is a home media server that allows mounting movies/tvshows and then serving
 ## Getting Started
 
 ```
-docker_compose up
+docker-compose up
 ```
 
 **When starting for the first time and using the `bridge` network mode instead of the recommended `host`, visit https://plex.tv/claim and use
