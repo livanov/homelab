@@ -7,7 +7,7 @@ services:
     restart: on-failure
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: "${SA_PASSWORD?:Please provide password for the 'sa' user.}"
+      SA_PASSWORD: "${SA_PASSWORD}"
     ports:
       - "1433:1433"
     volumes:
