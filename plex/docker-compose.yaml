@@ -2,19 +2,18 @@ version: "3.8"
 
 services:
   plex:
-    image: ghcr.io/linuxserver/plex:1.20.1.3252-a78fef9a9-ls116
+    image: ghcr.io/linuxserver/plex:1.21.4.4079-1b7748a7b-ls29
     container_name: plex
     environment:
       - PUID=1000
       - PGID=1000
       - VERSION=docker
-      - UMASK_SET=022 #optional
-      - PLEX_CLAIM= #optional
+      - UMASK=022 #optional
+      - PLEX_CLAIM=${PLEX_CLAIM} #optional
     ports:
-      - 8001:80
-      - 8002:443
+      - 32400:32400
     volumes:
       - ${PWD}/data/config/:/config
-      - ${PWD}/data/tvshows/:/tv
-      - ${PWD}/data/movies/:/movies
+      - ${TVSHOWS_DIR:-./data/tvshows}:/tv
+      - ${MOVIES_DIR:-./data/movies}:/movies
     restart: unless-stopped
