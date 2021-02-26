@@ -2,15 +2,13 @@ version: "3.8"
 
 services:
   mssql:
-    image: mcr.microsoft.com/mssql/server:2017-CU14-ubuntu
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 120s
+    image: mcr.microsoft.com/mssql/server:2017-CU22-ubuntu-16.04
+    container_name: mssql
+    restart: on-failure
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "${SA_PASSWORD?:Please provide password for the 'sa' user.}"
     ports:
       - "1433:1433"
     volumes:
-      - "${DATA_DIR?:Please provide data directory for the mount}:/var/opt/mssql"
+      - "${PWD}/data:/var/opt/mssql/data"
