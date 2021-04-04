@@ -19,7 +19,7 @@ with initialized database server ignores the `SA_PASSWORD` varaible.
 
 #### Restore from Backup
 ```
--- first, mount the backup file in the container's data director
+-- first, mount the backup file in the container's data directory
 
 -- this returns the Data and Log partitions of the database and their physical mappings
 RESTORE FILELISTONLY

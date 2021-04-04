@@ -12,3 +12,17 @@ services:
       - "1433:1433"
     volumes:
       - "${PWD}/data:/var/opt/mssql/data"
+
+  mssql-seed:
+    image: mcr.microsoft.com/mssql/server:2017-CU22-ubuntu-16.04
+    container_name: mssql-seed
+    environment:
+      MSSQL_ADDR: "mssql"
+      SA_PASSWORD: "${SA_PASSWORD}"
+    volumes:
+      - "${PWD}/startup.sh:/startup.sh"
+      - "${PWD}/init_scripts/:/init_scripts/"
+      - "${PWD}/data:/var/opt/mssql/data"
+    entrypoint: "/startup.sh"
+    depends_on:
+      - mssql
