@@ -20,9 +20,8 @@ services:
       MSSQL_ADDR: "mssql"
       SA_PASSWORD: "${SA_PASSWORD}"
     volumes:
-      - "${PWD}/startup.sh:/startup.sh"
       - "${PWD}/init_scripts/:/init_scripts/"
       - "${PWD}/data:/var/opt/mssql/data"
-    entrypoint: "/startup.sh"
+    entrypoint: "/init_scripts/startup.sh"
     depends_on:
       - mssql
