@@ -3,6 +3,7 @@ version: "3.8"
 services:
   plex:
     image: ghcr.io/linuxserver/plex:1.24.4
+    restart: unless-stopped
     container_name: plex
     environment:
       - PUID=1000
@@ -22,7 +23,6 @@ services:
       - 32414:32414/udp
       - 32469:32469
     volumes:
-      - ${PWD}/data/config/:/config
+      - ./data/config/:/config
       - ${TVSHOWS_DIR:-./data/tvshows}:/tv
       - ${MOVIES_DIR:-./data/movies}:/movies
-    restart: unless-stopped
