@@ -3,15 +3,8 @@
 if ! command -v docker &> /dev/null
 then
     echo "'git' not installed. Installing now ..."
-    apy install -y git
+    apt install -y git
 fi
-
-if [ -d homelab ]
-then
-    mv homelab homelab_$(date +%Y%m%d)
-fi
-
-git clone https://github.com/livanov/homelab.git
 
 if ! command -v docker &> /dev/null
 then
