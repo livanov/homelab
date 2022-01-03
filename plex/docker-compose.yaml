@@ -2,9 +2,9 @@ version: "3.8"
 
 services:
   plex:
-    image: ghcr.io/linuxserver/plex:1.24.4
-    restart: unless-stopped
+    image: ghcr.io/linuxserver/plex:1.25.2
     container_name: plex
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
@@ -23,6 +23,10 @@ services:
       - 32414:32414/udp
       - 32469:32469
     volumes:
-      - ./data/config/:/config
-      - ${TVSHOWS_DIR:-./data/tvshows}:/tv
-      - ${MOVIES_DIR:-./data/movies}:/movies
+      - ./data/config/:/config/
+      - type: bind # using the long syntax to fail container start if source is missing
+        source: ${TVSHOWS_DIR:-./data/tvshows}
+        target: /tv/
+      - type: bind # using the long syntax to fail container start if source is missing
+        source: ${MOVIES_DIR:-./data/movies}
+        target: /movies/

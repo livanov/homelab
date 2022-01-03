@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:20.04.1
+    container_name: qbittorrent
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Sofia
+      - WEBUI_PORT=8001
+    volumes:
+      - ./data/config/:/config/
+      - type: bind # using the long syntax to fail container start if source is missing
+        source: ../../../../
+        target: /data/
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 8001:8001
