@@ -6,13 +6,13 @@ services:
     container_name: plex
     restart: unless-stopped
     environment:
+      - VIRTUAL_HOST=plex.lan
+      - VIRTUAL_PORT=32400
       - PUID=1000
       - PGID=1000
       - VERSION=docker
       - UMASK=022 #optional
-      - PLEX_CLAIM=${PLEX_CLAIM} #optional
     ports:
-      - 32400:32400
       - 1900:1900/udp
       - 3005:3005
       - 5353/udp
@@ -25,8 +25,8 @@ services:
     volumes:
       - ./data/config/:/config/
       - type: bind # using the long syntax to fail container start if source is missing
-        source: ${TVSHOWS_DIR:-./data/tvshows}
+        source: ${PLEX_TVSHOWS_DIR:-./data/tvshows}
         target: /tv/
       - type: bind # using the long syntax to fail container start if source is missing
-        source: ${MOVIES_DIR:-./data/movies}
+        source: ${PLEX_MOVIES_DIR:-./data/movies}
         target: /movies/

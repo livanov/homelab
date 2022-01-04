@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.9"
 
 services:
   qbittorrent:
@@ -9,13 +9,13 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Sofia
-      - WEBUI_PORT=8001
+      - VIRTUAL_HOST=torrent.lan
+      - VIRTUAL_PORT=8080
     volumes:
       - ./data/config/:/config/
       - type: bind # using the long syntax to fail container start if source is missing
-        source: ../../../../
+        source: ${QBITTORRENT_DATA_DIR:-./data/downloads}
         target: /data/
     ports:
       - 6881:6881
       - 6881:6881/udp
-      - 8001:8001
