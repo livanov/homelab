@@ -9,8 +9,6 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Sofia
-      - VIRTUAL_HOST=torrent.lan
-      - VIRTUAL_PORT=8080
     volumes:
       - ./data/config/:/config/
       - type: bind # using the long syntax to fail container start if source is missing

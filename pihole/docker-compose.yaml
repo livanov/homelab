@@ -6,8 +6,6 @@ services:
     container_name: pihole
     restart: unless-stopped
     environment:
-      VIRTUAL_HOST: "pihole.lan"
-      VIRTUAL_PORT: "80"
       TZ: "Europe/Sofia"
       WEBPASSWORD: ""
     ports:

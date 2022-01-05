@@ -6,8 +6,6 @@ services:
     container_name: plex
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=plex.lan
-      - VIRTUAL_PORT=32400
       - PUID=1000
       - PGID=1000
       - VERSION=docker
