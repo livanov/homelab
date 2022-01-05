@@ -27,3 +27,8 @@ services:
     extends:
       file: ./plex/docker-compose.yaml
       service: plex
+
+  pihole:
+    extends:
+      file: ./pihole/docker-compose.yaml
+      service: pihole
