@@ -4,14 +4,14 @@ services:
   mssql:
     image: mcr.microsoft.com/mssql/server:2017-CU22-ubuntu-16.04
     container_name: mssql
-    restart: on-failure
+    restart: unless-stopped
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "${SA_PASSWORD}"
     ports:
-      - "1433:1433"
+      - 1433:1433
     volumes:
-      - "${PWD}/data:/var/opt/mssql/data"
+      - "./data:/var/opt/mssql/data"
 
   mssql-seed:
     image: mcr.microsoft.com/mssql/server:2017-CU22-ubuntu-16.04
@@ -20,8 +20,8 @@ services:
       MSSQL_ADDR: "mssql"
       SA_PASSWORD: "${SA_PASSWORD}"
     volumes:
-      - "${PWD}/init_scripts/:/init_scripts/"
-      - "${PWD}/data:/var/opt/mssql/data"
+      - ./init_scripts/:/init_scripts/
+      - ./data:/var/opt/mssql/data
     entrypoint: "/init_scripts/startup.sh"
     depends_on:
       - mssql

@@ -1,4 +1,4 @@
-version: '3.2'
+version: "3.8"
 
 volumes:
   db:
@@ -10,24 +10,24 @@ services:
     container_name: db
     restart: unless-stopped
     volumes:
+      # - ./data/db/:/var/lib/postgresql/data
       - db:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=nextcloud_db
       - POSTGRES_USER_FILE=/run/secrets/postgres_user
       - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
     secrets:
-      - postgres_db
       - postgres_password
       - postgres_user
 
-  app:
+  nextcloud:
     image: nextcloud:21
-    container_name: nextcloud
     restart: unless-stopped
     ports:
       - 8080:80
     volumes:
       - app:/var/www/html
+      # - ./data/app:/var/www/html
     depends_on:
       - db
     environment:
@@ -37,10 +37,10 @@ services:
       - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
       - NEXTCLOUD_ADMIN_PASSWORD_FILE=/run/secrets/nextcloud_admin_password
       - NEXTCLOUD_ADMIN_USER_FILE=/run/secrets/nextcloud_admin_user
+      - NEXTCLOUD_TRUSTED_DOMAINS=dell.lan
     secrets:
       - postgres_password
       - postgres_user
-      - postgres_db
       - nextcloud_admin_password
       - nextcloud_admin_user
 
