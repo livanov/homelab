@@ -22,7 +22,9 @@ services:
       - 32414:32414/udp
       - 32469:32469
     volumes:
-      - ./data/config/:/config/
+      - type: bind # using the long syntax to fail container start if source is missing
+        source: ./data/config/
+        target: /config/
       - type: bind # using the long syntax to fail container start if source is missing
         source: ${PLEX_TVSHOWS_DIR:-./data/tvshows}
         target: /tv/

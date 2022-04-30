@@ -10,7 +10,9 @@ services:
       - PGID=1000
       - TZ=Europe/Sofia
     volumes:
-      - ./data/config/:/config/
+      - type: bind # using the long syntax to fail container start if source is missing
+        source: ./data/config/
+        target: /config/
       - type: bind # using the long syntax to fail container start if source is missing
         source: ${QBITTORRENT_DATA_DIR:-./data/downloads}
         target: /data/
