@@ -10,6 +10,14 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
 
+  # nextcloud: # extends doesn't work with secrets and depends_on
+  #   extends:
+  #     file: ./nextcloud/docker-compose.yaml
+  #     service: nextcloud
+  #   environment:
+  #     VIRTUAL_HOST: "nextcloud.lan"
+  #     VIRTUAL_PORT: "8000"
+
   # ngrok:
   #   image: ngrok/ngrok:alpine
   #   container_name: ngrok
