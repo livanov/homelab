@@ -10,22 +10,6 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
 
-  # nextcloud: # extends doesn't work with secrets and depends_on
-  #   extends:
-  #     file: ./nextcloud/docker-compose.yaml
-  #     service: nextcloud
-  #   environment:
-  #     VIRTUAL_HOST: "nextcloud.lan"
-  #     VIRTUAL_PORT: "8000"
-
-  # ngrok:
-  #   image: ngrok/ngrok:alpine
-  #   container_name: ngrok
-  #   restart: unless-stopped
-  #   command: "http nginx-proxy --region=eu --inspect=false --bind-tls=true --log=stdout"
-  #   environment:
-  #     - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
-
   qbittorrent:
     extends:
       file: ./qbittorrent/docker-compose.yaml
@@ -41,11 +25,3 @@ services:
     environment:
       VIRTUAL_HOST: "plex.lan"
       VIRTUAL_PORT: "32400"
-
- #  pihole:
- #   extends:
- #     file: ./pihole/docker-compose.yaml
- #     service: pihole
- #   environment:
- #     VIRTUAL_HOST: "pihole.lan"
- #     VIRTUAL_PORT: "80"
