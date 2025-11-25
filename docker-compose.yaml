@@ -23,3 +23,10 @@ services:
       VIRTUAL_HOST: "plex.lan"
       VIRTUAL_PORT: "32400"
 
+  speedtest:
+    extends:
+      file: ./speedtest/docker-compose.yaml
+      service: speedtest
+    environment:
+      VIRTUAL_HOST: "speedtest.lan"
+      VIRTUAL_PORT: "80"
