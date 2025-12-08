@@ -1,6 +1,6 @@
 # Homelab
 
-This project contains a set of sub-projects that are various services useful at home. 
+This project contains a set of services that I run in my home network with various useful perks. They are all accessed behind an nginx reverse proxy.
 
 ## Getting Started
 
