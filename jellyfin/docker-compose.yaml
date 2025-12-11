@@ -1,0 +1,17 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:10.11
+    container_name: jellyfin
+    restart: unless-stopped
+    ports:
+      - 7359:7359/udp
+    volumes:
+      - type: bind
+        source: ./data/config
+        target: /config
+      - type: bind
+        source: ./data/cache
+        target: /cache
+      - type: bind
+        source: ${JELLYFIN_VIDEOS_DIR:-./data/videos}
+        target: /media

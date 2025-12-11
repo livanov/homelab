@@ -30,3 +30,11 @@ services:
     environment:
       VIRTUAL_HOST: "speedtest.lan"
       VIRTUAL_PORT: "80"
+
+  jellyfin:
+    extends:
+      file: ./jellyfin/docker-compose.yaml
+      service: jellyfin
+    environment:
+      VIRTUAL_HOST: "jellyfin.lan"
+      VIRTUAL_PORT: "8096"

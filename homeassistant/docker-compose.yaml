@@ -1,0 +1,16 @@
+services:
+  homeassistant:
+    image: lscr.io/linuxserver/homeassistant:latest
+    container_name: homeassistant
+    # network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Sofia
+    volumes:
+      - type: bind # using the long syntax to fail container start if source is missing
+        source: ./data/
+        target: /config/
+    ports:
+      - 8123:8123 #optional
+    restart: unless-stopped
