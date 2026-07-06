@@ -1,6 +1,7 @@
 .env
 .idea/
 .vs/
+.claude/
 
 data/
 secrets/
