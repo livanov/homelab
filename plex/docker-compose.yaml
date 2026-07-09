@@ -29,3 +29,9 @@ services:
       - type: bind # using the long syntax to fail container start if source is missing
         source: ${PLEX_MOVIES_DIR:-./data/movies}
         target: /movies/
+      - type: bind # using the long syntax to fail container start if source is missing
+        source: ${PLEX_KIDS_TVSHOWS_DIR:-./data/tvshows}
+        target: /kids_tv/
+      - type: bind # using the long syntax to fail container start if source is missing
+        source: ${PLEX_KIDS_MOVIES_DIR:-./data/movies}
+        target: /kids_movies/
