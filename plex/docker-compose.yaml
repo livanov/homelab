@@ -8,6 +8,11 @@ services:
       - PGID=1000
       - VERSION=docker
       - UMASK=022 #optional
+      - PLEX_PREF_allowedNetworks=${PLEX_ALLOWED_NETWORKS:-}
+      - PLEX_PREF_customConnections=${PLEX_CUSTOM_CONNECTIONS:-}
+      - PLEX_PREF_FriendlyName=${PLEX_FRIENDLY_NAME:-}
+      - PLEX_PREF_RelayEnabled=0
+      - PLEX_PREF_DlnaEnabled=0
     ports:
       - 32400:32400
       - 1900:1900/udp
@@ -23,6 +28,10 @@ services:
       - type: bind # using the long syntax to fail container start if source is missing
         source: ./data/config/
         target: /config/
+      - type: bind # using the long syntax to fail container start if source is missing
+        source: ./custom-cont-init.d/
+        target: /custom-cont-init.d/
+        read_only: true
       - type: bind # using the long syntax to fail container start if source is missing
         source: ${PLEX_TVSHOWS_DIR:-./data/tvshows}
         target: /tv/
