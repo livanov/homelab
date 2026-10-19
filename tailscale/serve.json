@@ -23,6 +23,9 @@
     "svc:ollama": {
       "TCP": { "443": { "HTTPS": true } },
       "Web": { "ollama.tail3f2d79.ts.net:443": { "Handlers": { "/": { "Proxy": "http://ollama:11434" } } } }
+    },
+    "svc:rdp": {
+      "TCP": { "3389": { "TCPForward": "host.docker.internal:3389" } }
     }
   }
 }
