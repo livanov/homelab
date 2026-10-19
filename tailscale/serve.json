@@ -1,0 +1,28 @@
+{
+  "Services": {
+    "svc:deye": {
+      "TCP": { "443": { "HTTPS": true } },
+      "Web": { "deye.tail3f2d79.ts.net:443": { "Handlers": { "/": { "Proxy": "http://host.docker.internal:18650" } } } }
+    },
+    "svc:plex": {
+      "TCP": { "443": { "HTTPS": true } },
+      "Web": { "plex.tail3f2d79.ts.net:443": { "Handlers": { "/": { "Proxy": "http://plex:32400" } } } }
+    },
+    "svc:jellyfin": {
+      "TCP": { "443": { "HTTPS": true } },
+      "Web": { "jellyfin.tail3f2d79.ts.net:443": { "Handlers": { "/": { "Proxy": "http://jellyfin:8096" } } } }
+    },
+    "svc:torrent": {
+      "TCP": { "443": { "HTTPS": true } },
+      "Web": { "torrent.tail3f2d79.ts.net:443": { "Handlers": { "/": { "Proxy": "http://qbittorrent:8080" } } } }
+    },
+    "svc:speedtest": {
+      "TCP": { "443": { "HTTPS": true } },
+      "Web": { "speedtest.tail3f2d79.ts.net:443": { "Handlers": { "/": { "Proxy": "http://speedtest:80" } } } }
+    },
+    "svc:ollama": {
+      "TCP": { "443": { "HTTPS": true } },
+      "Web": { "ollama.tail3f2d79.ts.net:443": { "Handlers": { "/": { "Proxy": "http://ollama:11434" } } } }
+    }
+  }
+}

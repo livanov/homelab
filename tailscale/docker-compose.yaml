@@ -1,0 +1,35 @@
+services:
+  tailscale:
+    # >= 1.96 advertises the Services in TS_SERVE_CONFIG on its own (see README)
+    image: tailscale/tailscale:v1.102.5
+    container_name: tailscale
+    hostname: homelab
+    restart: unless-stopped
+    environment:
+      - TS_AUTHKEY=file:/run/secrets/ts_authkey
+      - TS_HOSTNAME=homelab
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=true
+      - TS_AUTH_ONCE=true
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_EXTRA_ARGS=--advertise-tags=tag:homelab
+      - TS_ENABLE_HEALTH_CHECK=true
+      - TS_LOCAL_ADDR_PORT=127.0.0.1:9002
+    volumes:
+      - type: bind # using the long syntax to fail container start if source is missing
+        source: ./data/state/
+        target: /var/lib/tailscale/
+      - type: bind
+        source: ./serve.json
+        target: /config/serve.json
+        read_only: true
+      - type: bind
+        source: ./secrets/ts_authkey
+        target: /run/secrets/ts_authkey
+        read_only: true
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:9002/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s

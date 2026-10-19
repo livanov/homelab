@@ -49,3 +49,8 @@ services:
     environment:
       VIRTUAL_HOST: "ollama.lan"
       VIRTUAL_PORT: "11434"
+
+  tailscale:
+    extends:
+      file: ./tailscale/docker-compose.yaml
+      service: tailscale
