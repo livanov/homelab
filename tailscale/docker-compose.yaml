@@ -19,13 +19,15 @@ services:
       - type: bind # using the long syntax to fail container start if source is missing
         source: ./data/state/
         target: /var/lib/tailscale/
+      # folders, not single files: at boot Docker Desktop can start containers before
+      # WSL files are reachable, and a missing file source fails the mount for good
       - type: bind
-        source: ./serve.json
-        target: /config/serve.json
+        source: ./config/
+        target: /config/
         read_only: true
       - type: bind
-        source: ./secrets/ts_authkey
-        target: /run/secrets/ts_authkey
+        source: ./secrets/
+        target: /run/secrets/
         read_only: true
     healthcheck:
       test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:9002/healthz"]

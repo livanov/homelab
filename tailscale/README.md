@@ -12,7 +12,7 @@ Tailscale gives remote access to the homelab apps from my own devices, without o
 |https://ollama.tail3f2d79.ts.net|`ollama:11434`|
 |`rdp.tail3f2d79.ts.net:3389` (plain TCP)|`host.docker.internal:3389` (Windows Remote Desktop)|
 
-The routes live in `serve.json`, which the container watches and re-applies on change. It is a single-file bind mount, so edit it in place (an editor that saves in place, or `cat new > serve.json`). Tools that replace the file, such as `sed -i`, leave the container on the old copy; recover with `docker compose up -d --force-recreate --no-deps tailscale` (a plain restart fails). **After a recreate, check `docker exec tailscale tailscale debug prefs | grep -A7 AdvertiseServices`.** On 2026-09-30 it came back `null`: the Services had no host and every URL was dead. Run the manual advertise loop in step 8; the setting persists in `data/state/`. The container runs in userspace mode, keeps its state in `./data/state/` and reads the auth key from `./secrets/ts_authkey`. Both folders are git-ignored.
+The routes live in `config/serve.json`, which the container watches and re-applies on change. **After a recreate, check `docker exec tailscale tailscale debug prefs | grep -A7 AdvertiseServices`.** On 2026-09-30 it came back `null`: the Services had no host and every URL was dead. Run the manual advertise loop in step 8; the setting persists in `data/state/`. The container runs in userspace mode, keeps its state in `./data/state/` and reads the auth key from `./secrets/ts_authkey`. Both folders are git-ignored.
 
 The image is pinned to `v1.102.5`. From 1.96 the container advertises the Services in `serve.json` by itself (`TS_EXPERIMENTAL_SERVICE_AUTO_ADVERTISEMENT`, default on). Older images, such as 1.92.2, needed a manual `tailscale serve advertise` ([#18255](https://github.com/tailscale/tailscale/issues/18255)).
 
@@ -96,7 +96,7 @@ Admin console, **Services**, **Define a Service**, once per name:
 |`ollama`|`tcp:443`|
 |`rdp`|`tcp:3389`|
 
-The names must match `serve.json` (`svc:<name>`). The `autoApprovers` above approve `homelab` as the host of each one, so no manual approval is needed after the node joins.
+The names must match `config/serve.json` (`svc:<name>`). The `autoApprovers` above approve `homelab` as the host of each one, so no manual approval is needed after the node joins.
 
 ### 6. Auth key
 
@@ -178,3 +178,15 @@ docker compose stop tailscale && docker compose rm -f tailscale
 ```
 
 Then remove the `tailscale:` entry from the root `docker-compose.yaml` and this folder. In the admin console, delete the `homelab` machine and the 7 Services, and revoke any unused auth key. No app depends on Tailscale; the `*.lan` names keep working throughout.
+
+## Known failure: Docker Desktop restart
+
+On 2026-10-22 and again on 2026-11-11, Docker Desktop started the containers before the WSL bind mounts were ready. tailscale and nginx-proxy failed to start ("error mounting ... /config/serve.json: not a directory", same for `/tmp/docker.sock`) and stayed down, because Docker does not apply the restart policy to a container that never started. A missing file source gets replaced by an empty folder, which cannot be mounted onto a file. Since 2026-11-12 both mount folders instead (nginx-proxy takes the Docker Desktop socket directly), which should avoid it. If it happens again, every `*.tail3f2d79.ts.net` URL is dead until the container is recreated:
+
+```bash
+cd /home/livanov/programming/homelab && docker compose up -d --force-recreate --no-deps tailscale
+docker exec tailscale tailscale debug prefs | grep -A8 AdvertiseServices   # all services listed
+```
+
+The real fix is to stop hosting on Docker Desktop: run the homelab on an always-on Linux box.
+
